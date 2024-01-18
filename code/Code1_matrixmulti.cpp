@@ -47,7 +47,7 @@ int main() {
     // Check if matrix multiplication is possible
     if (colsA != rowsB) {
         cout << "Matrix multiplication is not possible. Columns of A must be equal to rows of B." << endl;
-        exit(1);
+        return -1;
     }
 
     // initialize matrix A and Matrix B
