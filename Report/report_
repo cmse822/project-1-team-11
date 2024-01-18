@@ -1,0 +1,92 @@
+Warmup
+
+1.) 3 load accesses, 1 store access, and 3 floating point operations. The arithmetic intensity is = 0.09375 flops/byte
+
+2.) 1 load access, 0 store access, and 2 floating point operations. The arithmetic intensity is = 0.25 flops/byte
+
+3.) 2 load accesses, 0 store access, and 2 floating point operations. The arithmetic intensity is = 0.125 flops/byte
+
+4.) 2 load accesses, 1 store access, and 2 floating point operations. The arithmetic intensity is = 0.0833 flops/byte
+
+_________________________________________________
+
+Part 1:
+
+1.) Code
+
+2.) For a N*N matrix as in our experiments, the number of floating point operations is 2*N^3. In general, it’s O(N^3) where N is the largest of (n,p,m) for matrices (n*p) and (p*m).
+
+3.) 
+
+-> We run our code on the Dev-intel16 MSU HPCC development node.
+
+-> For all experiments in Part 1, we bind our running process to a single core so that the operating system’s scheduler doesn’t 
+   bind it to a different core after time slice expiration or interrupts. This is important when studying cache performance 
+   since every core has its own L1 cache. We use the sched_setaffinity wrapper function in the C standard library to implement the binding.
+
+-> By using the wall clock time measured in seconds using microsecond precision, we find that it takes 
+   on average 0.0047 seconds (10 runs ; standard deviation=) for the process to complete the matrix multiplication of a N by N matrix 
+   for N=100. The get_walltime function was called directly before and after the matrix multiplication operator. 
+
+-> The result of 0.0047 seconds to complete the matrix multiplication of a 100 by 100 matrix makes sense since:
+     - The number of floating point operations here is 2*(100)^3 = 20,000,000. 
+
+     - It takes 0.0047 seconds to finish 20,000,000 operations, so it would take 1 second to finish 425,531,915 operations 
+       assuming everything else stays behaving the same (cache misses,...).
+
+     - The specifications of the core we are running on is 2.40 GHz which is 2,400,000,000 cycles per second. 
+       If we assume that each floating point operation takes 1 cycle then the core’s peak performance is 
+       2,400,000,000 floating point operations per second.
+
+             --The core’s peak performance is 2,400,000,000 floating point operations per second and our matrix operator on average does 
+               425,531,915 operations per second (for 100 by 100 matrix multiplication) then our matrix operator only uses
+              425,531,915 / 2,400,000,000 = 0.177 of the core’s peak performance (17.7 %).
+
+            -- To further check the safety of the assumption of each floating point operation taking 1 cycle, we measure the cpu cycles 
+               of the core using the perf_event_open linux system call. We obtain on average 16,472,112 
+               cpu cycles (we excluded the kernel cpu cycles) which is close to 20,000,000 operations. 
+               We also found that cpu utilization returned by the top command can be misleading probably because it 
+               accounts for the cpu being utilized when it’s waiting for memory transfer. 
+
+    - (425,531,915 flop/s is 425.531915 Mflop/s)
+
+
+
+4.) Using the lscpu command, (Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz).
+As discussed in question 3, 2.40 GHz is 2,400,000,000 cycles per second (the theoretical peak performance) which translates to 
+2,400,000,000 floating point operations per second under the assumption that the processor is capable of one flop per clock cycle.
+2,400,000,000 flop/s is 2.4 Gflop/s. In part 3, we mentioned that our matrix operator on average does 425,531,915 floating point operations 
+per second (for 100 by 100 matrix multiplication) which is 0.425531915 Gflop/s. As shown in question 3, 
+the ratio is = 0.425531915 / 2.4 = 0.177 so only 17.7 % of the processor’s theoretical power is being utilized by our matrix operator. 
+
+
+
+5.) To do: 
+
+run a bash script n=1 to 10,000,000 and store wall clock results as well as l1 data cache misses (use perf_event_loop) and plot
+the graphs. 
+
+Investigating the cache misses and not worrying about the tlb misses and page faults:
+(not going to investigate tlb misses or page faults since the top command for our custom memory allocation tests 
+returned swap=0 (swap is the non-resident memory of the process ; swap usage of a process) even when the 
+physical memory’s utilization by the process is close to 100 percent. Perhaps the configurations of the 
+running operating system on HPCC doesn’t extend the dram to the hard-drive so it doesn’t implement swapping out/in pages. 
+Page faults were still observed however in the memory allocation tests probably due to the constant initial access of
+newly allocated memory which generates page faults. Other reasons can also lead to page faults as well but page faults 
+in general weren’t investigated. 
+
+6.) To do: 
+analyze the wall clock time and the l1 data cache misses graphs of part 5. 
+
+
+
+_________________________________________________
+
+Part 2:
+
+To do:
+
+
+
+
+
