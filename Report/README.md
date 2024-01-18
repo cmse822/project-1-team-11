@@ -29,6 +29,8 @@ For the algorithm ``` C[i][j] += A[i][k] * B[k][j]```, there are three load,  on
 * MacBook Pro 2017, 2.3 GHz Dual-Core Intel Core i5: 
 
 $$ \frac{2 \times 100^3 Mflop}{0.00486708 s} = 410924003.715 Mflop/s $$
+
+
 * 
 * 
 
