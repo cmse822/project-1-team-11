@@ -1,12 +1,13 @@
 #include <iostream>
+#include <cstdlib>
 #include "get_walltime.c"
 
 using namespace std;
 
-double MatrixMultiplication(int ** A, int ** B, int rowsA, int colsA, int rowsB, int colsB) {
+double MatrixMultiplication(double ** A, double ** B, int rowsA, int colsA, int rowsB, int colsB) {
 
     // Initialize matrix C to zeros
-    int C[rowsA][colsB];
+    double C[rowsA][colsB];
 
     // Perform matrix multiplication and calculate time
     double start_time;
@@ -48,20 +49,20 @@ int main() {
         cout << "Matrix multiplication is not possible. Columns of A must be equal to rows of B." << endl;
         exit(1);
     }
-    
+
     // initialize matrix A and Matrix B
-    int** matrixA = new int*[rowsA];
-    int** matrixB = new int*[rowsB];
+    double** matrixA = new double*[rowsA];
+    double** matrixB = new double*[rowsB];
     for (int i = 0; i < rowsA; ++i) {
-        matrixA[i] = new int[colsA];
+        matrixA[i] = new double[colsA];
         for (int j = 0; j < colsA; ++j) {
-            matrixA[i][j] = rand() % 10;  // Random values between 0 and 9
+            matrixA[i][j] = static_cast<float>(rand()) / RAND_MAX;  // Random values between 0 and 1
         }
     }
     for (int i = 0; i < rowsB; ++i) {
-        matrixB[i] = new int[colsB];
+        matrixB[i] = new double[colsB];
         for (int j = 0; j < colsB; ++j) {
-            matrixB[i][j] = rand() % 10;  // Random values between 0 and 9
+            matrixB[i][j] = static_cast<float>(rand()) / RAND_MAX;  // Random values between 0 and 1
         }
     }
 
