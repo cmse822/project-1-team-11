@@ -2,14 +2,14 @@
 ## Ahmad Hejasebazzi; Max Brombach; Shuangyu Zhao
 
 
---------
-### PART1
-
-
-
-
 ----------
-### PART2
+### Part 1: Matrix-matrix Multiplicati
+
+
+
+
+-------------
+### Part 2: The Roofline Model 
 
 
 
