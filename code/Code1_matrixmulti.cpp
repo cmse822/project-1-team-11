@@ -4,11 +4,6 @@
 using namespace std;
 
 double MatrixMultiplication(int ** A, int ** B, int rowsA, int colsA, int rowsB, int colsB) {
-    // Check if matrix multiplication is possible
-    if (colsA != rowsB) {
-        cout << "Matrix multiplication is not possible. Columns of A must be equal to rows of B." << endl;
-        exit(1);
-    }
 
     // Initialize matrix C to zeros
     int C[rowsA][colsB];
@@ -48,7 +43,13 @@ int main() {
     cout << "cols: ";
     cin >> colsB;
 
-    // Dynamic memory allocation for matrices A and B
+    // Check if matrix multiplication is possible
+    if (colsA != rowsB) {
+        cout << "Matrix multiplication is not possible. Columns of A must be equal to rows of B." << endl;
+        exit(1);
+    }
+    
+    // initialize matrix A and Matrix B
     int** matrixA = new int*[rowsA];
     int** matrixB = new int*[rowsB];
     for (int i = 0; i < rowsA; ++i) {
@@ -64,7 +65,7 @@ int main() {
         }
     }
 
-    // Call the matrix multiplication function
+    // Call the matrix multiplication function and return spending time
     double timespend;
     timespend = MatrixMultiplication(matrixA, matrixB, rowsA, colsA, rowsB, colsB);
 
