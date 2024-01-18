@@ -5,10 +5,12 @@
 ----------
 ### Part 1: Matrix-matrix Multiplicati
 1. Program for matrix multiplication.
+
 See ```Code1_Matrixmulti.cpp``` in ```../code```
 
 2. For a given matrix size N, what is the total number of floating point operations performed by this operator?
-$ 3 \times N \times N \times N $
+
+$$ 3 \times N \times N \times N $$
 
 explanation:
 ```c++
