@@ -12,7 +12,7 @@ _________________________________________________
 
 Part 1:
 
-1.) Code
+1.) Code1_matrixmulti.cpp
 
 2.) For a N*N matrix as in our experiments, the number of floating point operations is 2*N^3. In general, it’s O(N^3) where N is the largest of (n,p,m) for matrices (n*p) and (p*m).
 
@@ -25,7 +25,7 @@ Part 1:
    since every core has its own L1 cache. We use the sched_setaffinity wrapper function in the C standard library to implement the binding.
 
 -> By using the wall clock time measured in seconds using microsecond precision, we find that it takes 
-   on average 0.0047 seconds (10 runs ; standard deviation=) for the process to complete the matrix multiplication of a N by N matrix 
+   on average 0.0047 seconds (10 runs ; standard deviation=0.0007) for the process to complete the matrix multiplication of a N by N matrix 
    for N=100. The get_walltime function was called directly before and after the matrix multiplication operator. 
 
 -> The result of 0.0047 seconds to complete the matrix multiplication of a 100 by 100 matrix makes sense since:
@@ -61,7 +61,7 @@ the ratio is = 0.425531915 / 2.4 = 0.177 so only 17.7 % of the processor’s the
 
 
 
-5.) To do Remaining:
+5.) Question 5 Remaining / Not done yet
 
 run a bash script n=1 to 10,000,000 and store wall clock results as well as l1 data cache misses (use perf_event_loop) and plot
 the graphs. 
@@ -75,7 +75,7 @@ Page faults were still observed however in the memory allocation tests probably 
 newly allocated memory which generates page faults. Other reasons can also lead to page faults as well but page faults 
 in general weren’t investigated. 
 
-6.) To do Remaining:
+6.) Question 6 Remaining / Not done yet 
 analyze the wall clock time and the l1 data cache misses graphs of part 5. 
 
 
@@ -84,9 +84,9 @@ _________________________________________________
 
 Part 2:
 
-1.) -
+1.) Run on Dev-intel16 MSU HPCC development node.
 
-2.) -
+2.) Run on Dev-intel16 MSU HPCC development node.
 
 3.) Plot: roofline_model.png
     L1: bandwidth=104.1 GB/s ; Ridgepoint=0.3 FLOPs/Byte
@@ -113,9 +113,9 @@ has a different L2 cache].
 if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node 
 has a different L3 cache].
 
-5.) Remaining
+5.) Question 5 Remaining / Not done yet
  
-6.) Remaining
+6.) Question 6 Remaining / Not done yet
 
 
 
