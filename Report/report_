@@ -61,7 +61,7 @@ the ratio is = 0.425531915 / 2.4 = 0.177 so only 17.7 % of the processor’s the
 
 
 
-5.) To do: 
+5.) To do Remaining:
 
 run a bash script n=1 to 10,000,000 and store wall clock results as well as l1 data cache misses (use perf_event_loop) and plot
 the graphs. 
@@ -75,7 +75,7 @@ Page faults were still observed however in the memory allocation tests probably 
 newly allocated memory which generates page faults. Other reasons can also lead to page faults as well but page faults 
 in general weren’t investigated. 
 
-6.) To do: 
+6.) To do Remaining:
 analyze the wall clock time and the l1 data cache misses graphs of part 5. 
 
 
@@ -84,7 +84,25 @@ _________________________________________________
 
 Part 2:
 
-To do:
+1.) -
+
+2.) -
+
+3.) Plot: roofline_model.png
+    L1: bandwidth=104.1 GB/s ; Ridgepoint=0.3 FLOPs/Byte
+    L2: bandwidth=65.6 GB/s ; Ridgepoint=0.45 FLOPs/Byte
+    L3: bandwidth=41.9 GB/s ; Ridgepoint=0.7 FLOPs/Byte
+    DRAM: bandwidth=17.8 GB/s ; Ridgepoint=1.8 FLOPs/Byte
+    
+
+
+4.) Remaining
+
+5.) Remaining
+ 
+6.) Remaining
+
+
 
 
 
