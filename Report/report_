@@ -96,7 +96,22 @@ Part 2:
     
 
 
-4.) Remaining
+4.) 
+
+SpMV:0.25 Flops/Byte [Falls to the left of all the slopes. Can't reach peak performance even if L1 cache is used only. To improve performance,
+                      we need a higher bandwidth L1 cache or distribute the computation/memory work on different cores (each has own L1 cache).
+
+LBMHD:1.07 Flops/Byte [Falls to the right of the L1,L2, and L3 slopes but before the DRAM slope. Peak performance is achieved 
+if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node 
+has a different L3 cache].
+
+Stencil:0.5 Flops/Byte [Falls to the right of the L1 and L2 slopes but to the left of the L3 and DRAM slope. Peak performance is achieved 
+if it doesn't make use of the DRAM and L3 by making more use of the L2 cache by distributing computation on different nodes where each node 
+has a different L2 cache].
+
+3-D FFT:1.64 Flops/Byte  [Falls to the right of the L1,L2, and L3 slopes but to the left of the DRAM slope. Peak performance is achieved 
+if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node 
+has a different L3 cache].
 
 5.) Remaining
  
