@@ -57,10 +57,12 @@ Extra Experiment: Using the perf_event_open linux system call wrapper function, 
                with PERF_COUNT_HW_REF_CPU_CYCLES (not affected by cpu frequency scaling), and we excluded the kernel cpu cycles. 
                For the 100 by 100 matrix multiplication,
                11,958,984 cycles were observed (11,958,984 cycles in 0.0047 seconds). The core's peak performance is 2,400,000,000
-               cycles per second which is 11,280,000 cycles per 0.0047. So, our observed cpu cycles  per second match the core's 
-               peak performance. This means that the cpu is capable of running more than 1 flop per clock cycle (due to pipelining,....).
-               This can be also observed in the roofline model's graph below where the cpu's peak performance is 30.7 Gflop/s. 
-               We also found that cpu utilization returned by the top command can be misleading probably because it 
+               cycles per second which is 11,280,000 cycles per 0.0047. So, our observed cpu cycles  per second matches the core's 
+               peak performance in terms of cpu cycles per second. However, it's only computing 425,531,915 floating point operations
+               per second so our naive matrix multiplication approach isn't even able to achieve 1 floating point operation in every 
+               cycle (idle cycles waiting for memory,...). The cpu is also capable of running more than 1 flop per clock cycle 
+              (due to pipelining,....) which can be  observed in the roofline model's graph below where the cpu's peak performance is
+              30.7 Gflop/s.  We also found that cpu utilization returned by the top command can be misleading probably because it 
                accounts for the cpu being utilized when it’s waiting for memory transfer. 
 
 
@@ -85,13 +87,14 @@ the ratio is = 0.425531915 / 2.4 = 0.177 so only 17.7 % of the processor’s the
 
 6.) lscpu command mentions that each core has its own L1 data cache of size (32 Kilobytes = 32,0000 bytes). The L2 cache is of size 
     (256 Kilobytes = 256,000 bytes) and the L3 cache is of size (35840 Kilobytes = 35,840,000 bytes). The L1 cache can fit 32,000 / 8.0 =
-     4,000 double precision numbers so computing further from N=sqrt(4,000)=63 dimensional matrices will rapidly decrease performance
-     since the L1 cache would be overflowing. This can be seen in the plot where there's increase in performance from small values N till 
-     around N=60 then a rapid decrease in performance. After this rapid decrease in performance, there's a stable decrease in performance
-     up until N=160-170. This is because the L2 cache will be filling entirely around this N range since the L2 cache can hold 35,840,000 /
-     8.0 = 32,000 double precision numbers which means that it can hold up to a N by N matrix where N=sqrt(32,000)=178 before it fills up.
-     After this rapid decrease in performance, the decrease of performance becomes stable and we can see that around late N=1300s the decrease
-     is slowly becoming rapid again since we are getting near the N value which will fill up the L3 cache (N=sqrt(4480000)=2116). 
+     4,000 double precision numbers so computing further away from N=sqrt(4,000)=63 dimensional matrices will rapidly decrease performance
+     since the L1 cache would be filled(the 4,000 elements of the columns multiplied by a single row). This can be seen in the plot where there's increase 
+    in performance from small values N till around N=60 then a rapid decrease in performance. After this rapid decrease in performance, 
+     there's a stable decrease in performance up until N=160-170. This is because the L2 cache will be filling entirely around this 
+      N range since the L2 cache can hold 35,840,000 / 8.0 = 32,000 double precision numbers which means that it can hold up to a N by 
+    N matrix where N=sqrt(32,000)=178 before it fills up. After this rapid decrease in performance, the decrease of performance becomes 
+    stable and we can see that around late N=1300s the decrease is slowly becoming rapid again since we are getting near the N value 
+   which will fill up the L3 cache (N=sqrt(4480000)=2116). 
      
      
 
