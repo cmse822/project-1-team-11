@@ -73,12 +73,15 @@ the ratio is = 0.425531915 / 2.4 = 0.177 so only 17.7 % of the processor’s the
 
 
 
-5.) Question 5 Remaining / Not done yet
+5.) 
 
-run a bash script n=1 to 10,000,000 and store wall clock results as well as l1 data cache misses (use perf_event_loop) and plot
-the graphs. 
+-> part1_q4_1.png shows the plot in linear scale.
+-> part1_q4_2.png shows the plot where the y-axis is in log scale. The peak performance y=2.4 GFlop/s is also shown.
+-> We plot from N=1 to N=1412. We stopped plotting at N=1412 because we might have figured out the trend of the plot. Around N=1400s, 
+   it's taking 22-26 seconds to compute for each N where the time will keep on increasing. If we assumed for all the N>1400 that it will
+   take 26 seconds each then it will take us 5 more hours to compute the matrix multiplication of 1000 more N values. 
 
-Investigating the cache misses and not worrying about the tlb misses and page faults:
+Note: Investigating the cache misses and not worrying about the tlb misses and page faults:
 (not going to investigate tlb misses or page faults since the top command for our custom memory allocation tests 
 returned swap=0 (swap is the non-resident memory of the process ; swap usage of a process) even when the 
 physical memory’s utilization by the process is close to 100 percent. Perhaps the configurations of the 
@@ -87,8 +90,18 @@ Page faults were still observed however in the memory allocation tests probably 
 newly allocated memory which generates page faults. Other reasons can also lead to page faults as well but page faults 
 in general weren’t investigated. 
 
-6.) Question 6 Remaining / Not done yet 
-analyze the wall clock time and the l1 data cache misses graphs of part 5. 
+6.) lscpu command mentions that each core has its own L1 data cache of size (32 Kilobytes = 32,0000 bytes). The L2 cache is of size 
+    (256 Kilobytes = 256,000 bytes) and the L3 cache is of size (35840 Kilobytes = 35,840,000 bytes). The L1 cache can fit 32,000 / 8.0 =
+     4,000 double precision numbers so computing further from N=sqrt(4,000)=63 dimensional matrices will rapidly decrease performance
+     since the L1 cache would be overflowing. This can be seen in the plot where there's increase in performance from small values N till 
+     around N=60 then a rapid decrease in performance. After this rapid decrease in performance, there's a stable decrease in performance
+     up until N=160-170. This is because the L2 cache will be filling entirely around this N range since the L2 cache can hold 35,840,000 /
+     8.0 = 32,000 double precision numbers which means that it can hold up to a N by N matrix where N=sqrt(32,000)=178 before it fills up.
+     After this rapid decrease in performance, the decrease of performance becomes stable and we can see that around late N=1300s the decrease
+     is slowly becoming rapid again since we are getting near the N value which will fill up the L3 cache (N=sqrt(4480000)=2116). 
+     
+     
+
 
 
 
