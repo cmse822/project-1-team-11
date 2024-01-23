@@ -14,42 +14,54 @@ Part 1:
 
 1.) Code1_matrixmulti.cpp
 
-2.) For a N*N matrix as in our experiments, the number of floating point operations is 2*N^3. In general, it’s O(N^3) where N is the largest of (n,p,m) for matrices (n*p) and (p*m).
+2.) For a N*N matrix as in our experiments, the number of floating point operations is 2*N^3. In general, it’s O(N^3) 
+    where N is the largest of (n,p,m) for matrices (n*p) and (p*m).
 
 3.) 
 
 -> We run our code on the Dev-intel16 MSU HPCC development node.
 
+-> For the N*N matrix, we generate random double precision values in the range [0,1].
+
+-> We disable optimization using the -O0 flag. 
+
 -> For all experiments in Part 1, we bind our running process to a single core so that the operating system’s scheduler doesn’t 
-   bind it to a different core after time slice expiration or interrupts. This is important when studying cache performance 
-   since every core has its own L1 cache. We use the sched_setaffinity wrapper function in the C standard library to implement the binding.
+   bind it to a different core after time slice expiration or interrupts since every core has its own L1 cache
+   and we want cache reuse. We use the sched_setaffinity wrapper function in the C standard library to implement the binding.
 
 -> By using the wall clock time measured in seconds using microsecond precision, we find that it takes 
    on average 0.0047 seconds (10 runs ; standard deviation=0.0007) for the process to complete the matrix multiplication of a N by N matrix 
    for N=100. The get_walltime function was called directly before and after the matrix multiplication operator. 
 
 -> The result of 0.0047 seconds to complete the matrix multiplication of a 100 by 100 matrix makes sense since:
-     - The number of floating point operations here is 2*(100)^3 = 20,000,000. 
+     - The number of floating point operations here is 2*(100)^3 = 2,000,000. 
 
-     - It takes 0.0047 seconds to finish 20,000,000 operations, so it would take 1 second to finish 425,531,915 operations 
+     - It takes 0.0047 seconds to finish 2,000,000 operations, so it would take 1 second to finish 425,531,915 operations 
        assuming everything else stays behaving the same (cache misses,...).
 
      - The specifications of the core we are running on is 2.40 GHz which is 2,400,000,000 cycles per second. 
        If we assume that each floating point operation takes 1 cycle then the core’s peak performance is 
        2,400,000,000 floating point operations per second.
 
-             --The core’s peak performance is 2,400,000,000 floating point operations per second and our matrix operator on average does 
+             --The core’s peak performance is 2,400,000,000 floating point operations per second (2.4 GFlops/s)
+               and our matrix operator on average does 
                425,531,915 operations per second (for 100 by 100 matrix multiplication) then our matrix operator only uses
               425,531,915 / 2,400,000,000 = 0.177 of the core’s peak performance (17.7 %).
 
-            -- To further check the safety of the assumption of each floating point operation taking 1 cycle, we measure the cpu cycles 
-               of the core using the perf_event_open linux system call. We obtain on average 16,472,112 
-               cpu cycles (we excluded the kernel cpu cycles) which is close to 20,000,000 operations. 
-               We also found that cpu utilization returned by the top command can be misleading probably because it 
-               accounts for the cpu being utilized when it’s waiting for memory transfer. 
+
 
     - (425,531,915 flop/s is 425.531915 Mflop/s)
 
+
+Extra Experiment: Using the perf_event_open linux system call wrapper function, we measure the cpu cycles of the core
+               with PERF_COUNT_HW_REF_CPU_CYCLES (not affected by cpu frequency scaling), and we excluded the kernel cpu cycles. 
+               For the 100 by 100 matrix multiplication,
+               11,958,984 cycles were observed (11,958,984 cycles in 0.0047 seconds). The core's peak performance is 2,400,000,000
+               cycles per second which is 11,280,000 cycles per 0.0047. So, our observed cpu cycles  per second match the core's 
+               peak performance. This means that the cpu is capable of running more than 1 flop per clock cycle (due to pipelining,....).
+               This can be also observed in the roofline model's graph below where the cpu's peak performance is 30.7 Gflop/s. 
+               We also found that cpu utilization returned by the top command can be misleading probably because it 
+               accounts for the cpu being utilized when it’s waiting for memory transfer. 
 
 
 4.) Using the lscpu command, (Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz).
