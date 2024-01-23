@@ -81,14 +81,7 @@ the ratio is = 0.425531915 / 2.4 = 0.177 so only 17.7 % of the processor’s the
    it's taking 22-26 seconds to compute for each N where the time will keep on increasing. If we assumed for all the N>1400 that it will
    take 26 seconds each then it will take us 5 more hours to compute the matrix multiplication of 1000 more N values. 
 
-Note: Investigating the cache misses and not worrying about the tlb misses and page faults:
-(not going to investigate tlb misses or page faults since the top command for our custom memory allocation tests 
-returned swap=0 (swap is the non-resident memory of the process ; swap usage of a process) even when the 
-physical memory’s utilization by the process is close to 100 percent. Perhaps the configurations of the 
-running operating system on HPCC doesn’t extend the dram to the hard-drive so it doesn’t implement swapping out/in pages. 
-Page faults were still observed however in the memory allocation tests probably due to the constant initial access of
-newly allocated memory which generates page faults. Other reasons can also lead to page faults as well but page faults 
-in general weren’t investigated. 
+
 
 6.) lscpu command mentions that each core has its own L1 data cache of size (32 Kilobytes = 32,0000 bytes). The L2 cache is of size 
     (256 Kilobytes = 256,000 bytes) and the L3 cache is of size (35840 Kilobytes = 35,840,000 bytes). The L1 cache can fit 32,000 / 8.0 =
@@ -138,9 +131,9 @@ has a different L2 cache].
 if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node 
 has a different L3 cache].
 
-5.) Question 5 Remaining / Not done yet
+5.) Question 5 Remaining 
  
-6.) Question 6 Remaining / Not done yet
+6.) Question 6 Remaining 
 
 
 
