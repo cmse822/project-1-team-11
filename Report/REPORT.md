@@ -1,13 +1,13 @@
 
 # Warmup
 
-1. 3 load accesses, 1 store access, and 3 floating point operations. The arithmetic intensity is = 0.09375 flops/byte
+1. 3 load accesses, 1 store access, and 3 floating point operations. The arithmetic intensity is = 0.09375 FLOP/byte
 
-1. 1 load access, 0 store access, and 2 floating point operations. The arithmetic intensity is = 0.25 flops/byte
+1. 1 load access, 0 store access, and 2 floating point operations. The arithmetic intensity is = 0.25 FLOP/byte
 
-1. 2 load accesses, 0 store access, and 2 floating point operations. The arithmetic intensity is = 0.125 flops/byte
+1. 2 load accesses, 0 store access, and 2 floating point operations. The arithmetic intensity is = 0.125 FLOP/byte
 
-1. 2 load accesses, 1 store access, and 2 floating point operations. The arithmetic intensity is = 0.0833 flops/byte
+1. 2 load accesses, 1 store access, and 2 floating point operations. The arithmetic intensity is = 0.0833 FLOP/byte
 
 _________________________________________________
 
