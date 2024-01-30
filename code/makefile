@@ -1,3 +1,3 @@
 # build the matrix multiplication executable
-all: Code1_matrixmulti.cpp
-	g++ -Wall Code1_matrixmulti.cpp -o matrix_mutliply
+all: mat_mult.c
+	gcc -Wall mat_mult.c -O0 -o matrix_multiply

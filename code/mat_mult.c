@@ -12,7 +12,7 @@
 
 #include <fcntl.h>
 #include <sched.h>
-#include </mnt/home/hejaseba/get_walltime.h>
+#include "get_walltime.c"
 
 long perf_event_open(struct perf_event_attr *hw_event, pid_t pid, int cpu, int group_fd, unsigned long flags) {
     return syscall(__NR_perf_event_open, hw_event, pid, cpu, group_fd, flags);
@@ -117,7 +117,7 @@ if (fd == -1) {
 
 int k_ = 1;
 
-for(;k_<=2000;k_++)
+for(;k_<=100;k_++)
 {
 printf("%d here: \n",k_);
 
