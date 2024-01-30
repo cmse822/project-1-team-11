@@ -43,18 +43,18 @@
 1. [For the memory-bound kernels where DRAM or a certain cache level is a bottleneck, optimizing loops by unrolling them and applying blocking techniques will help with minimizing cache misses]
 
 
-	SpMV: 0.25 Flops/Byte [Falls to the left of all the diagonals. Can't reach peak performance even if L1 cache is used only. 
-To improve performance, we need a higher bandwidth L1 cache or distribute the computation/memory work on different cores (each has own L1 cache).
+	SpMV: 0.25 Flops/Byte [Falls to the left of all the diagonals for both architectures. Can't reach peak performance even if L1 cache is used only. 
+To improve performance, we need a higher bandwidth L1 cache or distribute the computation/memory work on different cores (each has own L1 cache)].
 
 
-	LBMHD: 1.07 Flops/Byte [Falls to the right of the L1,L2, and L3 diagonals but to the left of the DRAM diagonal. Peak performance is achieved if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node has a different L3 cache. So reducing memory transfers would improve performance here since the performance is limited by theavailable DRAM memory bandwidth].
+	LBMHD: 1.07 Flops/Byte [Falls to the right of the L1,L2, and L3 diagonals but to the left of the DRAM diagonal for both architectures. Peak performance is achieved if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node has a different L3 cache. So reducing memory transfers would improve performance here since the performance is limited by the available DRAM memory bandwidth].
 
 
-	Stencil: 0.5 Flops/Byte [its column falls to the right of the L1 and L2 diagonals but to the left of the L3 and DRAM diagonals. 
-Peak performance is achieved if it doesn't make use of the DRAM and L3 by making more use of the L2 cache by distributing computation on different nodes where each node has a different L2 cache and maximizing cache hits for L2 cache]. By not making use of L3 and DRAM, it becomes compute-bound and is able to achieve maximum performance.
+	Stencil: 0.5 Flops/Byte [its column falls to the right of the L1 and L2 diagonals but to the left of the L3 and DRAM diagonals for intel16. 
+Peak performance is achieved if it doesn't make use of the DRAM and L3 by making more use of the L2 cache by distributing computation on different nodes where each node has a different L2 cache and maximizing cache hits for L2 cache]. By not making use of L3 and DRAM, it becomes compute-bound and is able to achieve maximum performance. For amd20, its column falls to the right of the L1, L2, and L3 diagonals, but to the left of DRAM. This kernel would be compute bound unless it needed to use DRAM where it would be memory bound.
 
 
-	3-D FFT: 1.64 Flops/Byte  [Falls to the right of the L1,L2, and L3 diagonals but to the left of the DRAM diagonal. Peak performance is achieved if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node has a different L3 cache]. By not making use of DRAM, it becomes compute-bound and is able to achieve maximum performance.
+	3-D FFT: 1.64 Flops/Byte  [Falls to the right of the L1,L2, and L3 diagonals but to the left of the DRAM diagonal for intel16. Peak performance is achieved if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node has a different L3 cache]. By not making use of DRAM, it becomes compute-bound and is able to achieve maximum performance. This kernel falls to the right of the diagonals for L1, L2, L3, and DRAM on amd20 so it is compute bound unless it utilizes more memory than is available on the machine and has to go out to disk.
 
 1. Question 5 Remaining 
 1. Question 6 Remaining
