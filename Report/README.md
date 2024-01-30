@@ -24,7 +24,7 @@
 
 	For the `dev-amd20` architecture, `lscpu` gives lists the CPU MHz as 2595.009 which translates to 2,594,009,000 FLOP/s under the assumption the processer is capable of one FLOP per clock cycle. The architecture has two chunks of L1 cache that are 32KB each (total of 64KB), one chunk of L2 cache that is 512KB, and a chunk of L3 chache that is 16384KB. In part 3, we learned the matrix operator on `dev-amd20` performed at 416.666667 MFLOP/s. Therefore, we can find that the processor is only performing at 416.666667 / 2595.009 = 16.1% of it's theoretical maximum performance. 
 
-1. `part1_q4_1.png` shows the plot in linear scale. `part1_q4_2.png` shows the plot where the y-axis is in log scale. The peak performance y=2.4 GFLOP/s is also shown. We plot from N=1 to N=1412. We stopped plotting at N=1412 because we might have figured out the trend of the plot. Around N=1400s, it's taking 22-26 seconds to compute for each N where the time will keep on increasing. If we assumed for all the N>1400 that it will take 26 seconds each then it will take us 5 more hours to compute the matrix multiplication of 1000 more N values. 
+1. `part1_q4_1_intel16.png` shows the plot in linear scale. `part1_q4_2_intel16.png` shows the plot where the y-axis is in log scale. The peak performance y=2.4 GFLOP/s is also shown. We plot from N=1 to N=1412. We stopped plotting at N=1412 because we might have figured out the trend of the plot. Around N=1400s, it's taking 22-26 seconds to compute for each N where the time will keep on increasing. If we assumed for all the N>1400 that it will take 26 seconds each then it will take us 5 more hours to compute the matrix multiplication of 1000 more N values. 
 
 1. `lscpu` command mentions that each core has its own L1 data cache of size (32 Kilobytes = 32,0000 bytes). The L2 cache is of size (256 Kilobytes = 256,000 bytes) and the L3 cache is of size (35840 Kilobytes = 35,840,000 bytes). The L1 cache can fit 32,000 / 8.0 = 4,000 double precision numbers so computing further away from N=$\sqrt{4000}$=63 dimensional matrices will rapidly decrease performance since the L1 cache would be filled (the 4,000 elements of the columns multiplied by a single row). This can be seen in the plot where there's increase in performance from small values N till around N=60 then a rapid decrease in performance. After this rapid decrease in performance, there's a stable decrease in performance up until N=160-170. This is because the L2 cache will be filling entirely around this N range since the L2 cache can hold 35,840,000 / 8.0 = 32,000 double precision numbers which means that it can hold up to a N by N matrix where N=$\sqrt{32000}$=178 before it fills up. After this rapid decrease in performance, the decrease of performance becomes stable and we can see that around late N=1300s the decrease is slowly becoming rapid again since we are getting near the N value which will fill up the L3 cache (N=$\sqrt{4480000}$=2116). 
 
@@ -41,12 +41,16 @@
     DRAM: bandwidth=17.8 GB/s ; Ridgepoint=1.68 FLOP/Byte
     
 1. [For the memory-bound kernels where DRAM or a certain cache level is a bottleneck, optimizing loops by unrolling them and applying blocking techniques will help with minimizing cache misses]
-SpMV: 0.25 Flops/Byte [Falls to the left of all the diagonals. Can't reach peak performance even if L1 cache is used only. 
+
+	SpMV: 0.25 Flops/Byte [Falls to the left of all the diagonals. Can't reach peak performance even if L1 cache is used only. 
 To improve performance, we need a higher bandwidth L1 cache or distribute the computation/memory work on different cores (each has own L1 cache).
-LBMHD: 1.07 Flops/Byte [Falls to the right of the L1,L2, and L3 diagonals but to the left of the DRAM diagonal. Peak performance is achieved if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node has a different L3 cache. So reducing memory transfers would improve performance here since the performance is limited by theavailable DRAM memory bandwidth].
-Stencil: 0.5 Flops/Byte [its column falls to the right of the L1 and L2 diagonals but to the left of the L3 and DRAM diagonals. 
+
+	LBMHD: 1.07 Flops/Byte [Falls to the right of the L1,L2, and L3 diagonals but to the left of the DRAM diagonal. Peak performance is achieved if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node has a different L3 cache. So reducing memory transfers would improve performance here since the performance is limited by theavailable DRAM memory bandwidth].
+
+	Stencil: 0.5 Flops/Byte [its column falls to the right of the L1 and L2 diagonals but to the left of the L3 and DRAM diagonals. 
 Peak performance is achieved if it doesn't make use of the DRAM and L3 by making more use of the L2 cache by distributing computation on different nodes where each node has a different L2 cache and maximizing cache hits for L2 cache]. By not making use of L3 and DRAM, it becomes compute-bound and is able to achieve maximum performance.
-3-D FFT: 1.64 Flops/Byte  [Falls to the right of the L1,L2, and L3 diagonals but to the left of the DRAM diagonal. Peak performance is achieved if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node has a different L3 cache]. By not making use of DRAM, it becomes compute-bound and is able to achieve maximum performance.
+
+	3-D FFT: 1.64 Flops/Byte  [Falls to the right of the L1,L2, and L3 diagonals but to the left of the DRAM diagonal. Peak performance is achieved if it doesn't make use of the DRAM by making more use of the L3 cache by distributing computation on different nodes where each node has a different L3 cache]. By not making use of DRAM, it becomes compute-bound and is able to achieve maximum performance.
 
 1. Question 5 Remaining 
 1. Question 6 Remaining
