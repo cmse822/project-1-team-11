@@ -32,14 +32,16 @@
 # Part 2
 
 1. Run on `intel16` MSU HPCC development node.
+   Run on amd20 MSU HPCC development node.
 
 1. Run on `intel16` MSU HPCC development node.
+   Run on amd20 MSU HPCC development node.
 
 1. Plot: `roofline_model_intel16.png`
     
 	L1: bandwidth=104.1 GB/s ; Ridgepoint=0.3 FLOPs/Byte
     
-	L2: bandwidth=65.6 GB/s ; Ridgepoint=0.43 FLOPs/Byte
+	L2: bandwidth=65.6 GB/s ; Ridgepoint=0.46 FLOPs/Byte
     
 	L3: bandwidth=41.9 GB/s ; Ridgepoint=0.7 FLOPs/Byte
     
@@ -50,9 +52,9 @@
 
 	L1: bandwidth=204.9 GB/s; Ridgepoint=0.18 FLOPs/Byte
 	
-	L2: bandwidth=167.9 GB/s; Ridgepoint=0.21 FLOPS/Byte
+	L2: bandwidth=167.9 GB/s; Ridgepoint=0.2 FLOPS/Byte
 
-	L3: bandwidth=137.8 GB/s; Ridgepoint=0.26 FLOPs/Byte
+	L3: bandwidth=137.8 GB/s; Ridgepoint=0.23 FLOPs/Byte
 
 	DRAM bandwidth=29.3 GB/s; Ridgepoint=1.2 FLOPs/Byte
 
