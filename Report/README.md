@@ -11,7 +11,8 @@
 # Part 1
 
 1. mat_mult.c
-   Compliation: 
+   
+   Compliation: gcc -O0 -o output_run mat_mult.c
 
 1. For an NxN matrix as in our experiments, the number of floating point operations is 2N<sup>3</sup>. In general, it’s O(N<sup>3</sup>) where N is the largest of (n,p,m) for matrices (np) and (pm).
 
