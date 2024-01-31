@@ -42,9 +42,9 @@ int main(int argc, char *argv[])
 {
 
 
-// have file helloworldssz existing before opening else use O_CREAT flag ; 
-// quick open existing file ; use O_CREAT if file doesn't exist ; not checking errors ; doing it quickly
-int fd2 = open("helloworldssz", O_RDWR | O_APPEND);
+//quick solution to write to an existing file ; not using O_CREAT flag ; file should  exist already
+//not checking for errors ; doing it quickly
+int fd2 = open("file_", O_RDWR | O_APPEND);
 
 
 
