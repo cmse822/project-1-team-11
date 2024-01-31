@@ -42,12 +42,13 @@ void multiplyMatrices(double **mat1, double **mat2, double **result, int rows, i
 int main(int argc, char *argv[])
 {
 
+//opening an existing file hello_world to append the clock time results to it
+//(no error checking or parsing done if file doesn't exist or permissions)
+int fd2 = open("hello_world", O_RDWR | O_APPEND);
 
-int fd2 = open("aokz_", O_RDWR | O_APPEND);
 
 
-
-
+// binding process to a specific core
 cpu_set_t set;
 CPU_ZERO(&set);
 CPU_SET(6,&set);
@@ -75,6 +76,7 @@ if (fd == -1) {
 
 
 int k_ = 1;
+//Loop from 1 till 1000 ; allocate memory ; generate random values between 0 and 1 ; perform matrix multiplication ; free memory
 for(;k_<=1000;k_++)
 {
 printf("%d here: \n",k_);
@@ -110,7 +112,7 @@ result = temp3;
 
 
 srand(time(NULL));
-
+// generating values between 0 and 1
 for (i=0;i<rows;i++)
 {
 for (j=0;j<cols;j++)
@@ -125,7 +127,7 @@ for (j=0;j<cols;j++)
 
 
 
-
+//reset and enable for tracking cpu cycles
 ioctl(fd, PERF_EVENT_IOC_RESET, 0);
 ioctl(fd, PERF_EVENT_IOC_ENABLE, 0);
 double start_time, end_time;
@@ -140,7 +142,7 @@ printf("cpu cycles: %lld\n", count);
 printf("%f \n", end_time-start_time);
 double value_ = end_time - start_time;
 
-
+// writing to file
 char buffer[20];
 snprintf(buffer, sizeof(buffer), "%f\n", value_);
 ssize_t bytes_written = write(fd2,buffer,strlen(buffer));
